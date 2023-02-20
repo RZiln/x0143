@@ -15,9 +15,9 @@ local Players = game:GetService("Players")
 local vim = game:GetService("VirtualInputManager")
 
 local LP = Players.LocalPlayer
-
-if LP.Name ~= "mr_cookie15" or "v_Ghoui" or "6aim_s" then
-    while true do end
+local tbl = {"mr_cookie15", "v_Ghoui", "6aim_s", "BigBankDZin"}
+if not table.find(tbl, LP.Name) then
+    LP:Kick()
 end
 
 local Hum = LP.Character:WaitForChild("Humanoid")
@@ -140,7 +140,9 @@ Options.AutoDribble:OnClick(function()
                         if anim ~= AnimationTrack.Animation.AnimationId then
                             return;
                         end -- Check if the animation is in AnimList
-                        if (Hrp.Position - character.HumanoidRootPart.Position).Magnitude >= _G.AdRange then return end
+                        if (Hrp.Position - character.HumanoidRootPart.Position).Magnitude >= _G.AdRange then
+                            return
+                        end
                         if _G.AdTeamCheck == true then
                             if character.Parent.Team ~= game.Players.LocalPlayer.Team then
                                 Dribble(character.Parent.Name)
@@ -148,7 +150,7 @@ Options.AutoDribble:OnClick(function()
                         else
                             Dribble(character.Parent.Name)
                         end
-                        
+
                     end);
             end
             if _G.ADstate then
