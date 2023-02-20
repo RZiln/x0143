@@ -15,6 +15,11 @@ local Players = game:GetService("Players")
 local vim = game:GetService("VirtualInputManager")
 
 local LP = Players.LocalPlayer
+
+if LP.Name ~= "mr_cookie15" or "v_Ghoui" or "6aim_s" then
+    while true do end
+end
+
 local Hum = LP.Character:WaitForChild("Humanoid")
 
 local dribbledPlayers = {}
@@ -95,77 +100,76 @@ Options.ADDebounce:OnChanged(function()
 end)
 
 local function Dribble(plr)
-        if table.find(dribbledPlayers, plr) == nil then
-            table.insert(dribbledPlayers, plr)
-            local picker = math.random(1, 2)
-            if picker == 1 then
-                vim:SendKeyEvent(true, "Z", false, game);
-                task.wait(.1)
-                vim:SendKeyEvent(false, "Z", false, game);
-            else
-                vim:SendKeyEvent(true, "C", false, game);
-                task.wait(.1)
-                vim:SendKeyEvent(false, "C", false, game);
-            end
-
-            task.wait(_G.AdDebounceTimer)
-            table.remove(dribbledPlayers, table.find(dribbledPlayers, plr))
-
+    if table.find(dribbledPlayers, plr) == nil then
+        table.insert(dribbledPlayers, plr)
+        local picker = math.random(1, 2)
+        if picker == 1 then
+            vim:SendKeyEvent(true, "Q", false, game);
+            task.wait(.1)
+            vim:SendKeyEvent(false, "Q", false, game);
+        else
+            vim:SendKeyEvent(true, "E", false, game);
+            task.wait(.1)
+            vim:SendKeyEvent(false, "E", false, game);
         end
-end
 
-local function CheckDist(plr)
-    if plr.Character:FindFirstChild("HumanoidRootPart") ~= nil then
-        if (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - plr.Character.HumanoidRootPart.Position).Magnitude <=
-            _G.AdRange then
-            return true
-        end
-    else
-        return false
+        task.wait(_G.AdDebounceTimer)
+        table.remove(dribbledPlayers, table.find(dribbledPlayers, plr))
+
     end
 end
 
 Options.AutoDribble:OnClick(function()
-    local state = Options.AutoDribble:GetState()
+    _G.ADstate = Options.AutoDribble:GetState()
     task.spawn(function()
-        if state then
-
-            _G.Loop = RunService.RenderStepped:Connect(function()
-                for i, v in pairs(Players:GetPlayers()) do
-                    if v ~= LP and v.Character then
-                        if CheckDist(v) == true then
-                            for i, track in pairs(v.Character.Humanoid:GetPlayingAnimationTracks()) do
-                                if track.Animation.AnimationId == anim then
-                                    print(v)
-                                    if _G.AdTeamCheck == true then
-                                        if v.Team ~= game.Players.LocalPlayer.Team then
-                                            print("drib non team")
-                                            task.spawn(function()
-
-                                                Dribble(v.Name)
-                                            end)
-                                        end
-                                    else
-                                        print("drib")
-                                        task.spawn(function()
-
-                                            Dribble(v.Name)
-                                        end)
-
-                                    end
-
-                                end
-                            end
-                        end
-
-                    end
+        if _G.ADstate then
+            local function setupAutoParry(character)
+                if _G.ADstate == false then
+                    return
                 end
+                if character == game.Players.LocalPlayer.Character then
+                    return
+                end
+                local Hrp = game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart");
+                local Humanoid = character:WaitForChild("Humanoid");
+                Humanoid.AnimationPlayed:Connect(
+                    function(AnimationTrack) -- Do this every time the player plays an animation
+                        if _G.ADstate == false then
+                            return
+                        end
+                        if anim ~= AnimationTrack.Animation.AnimationId then
+                            return;
+                        end -- Check if the animation is in AnimList
+                        if (Hrp.Position - character.HumanoidRootPart.Position).Magnitude >= _G.AdRange then return end
+                        if _G.AdTeamCheck == true then
+                            if character.Parent.Team ~= game.Players.LocalPlayer.Team then
+                                Dribble(character.Parent.Name)
+                            end
+                        else
+                            Dribble(character.Parent.Name)
+                        end
+                        
+                    end);
+            end
+            if _G.ADstate then
+                for _, player in ipairs(Players:GetPlayers()) do
+                    -- Setup the auto parry for everyone's current character
+                    if player.Character and player ~= game.Players.LocalPlayer then
+                        setupAutoParry(player.Character)
+                    end
 
+                    -- Setup the auto parry for when they respawn and get a new character
+                    player.CharacterAdded:Connect(setupAutoParry)
+                end
+            end
+
+            -- Setup the auto parry for new players who join
+            _G.AdConection3 = Players.PlayerAdded:Connect(function(player)
+                player.CharacterAdded:Connect(setupAutoParry)
             end)
-
         else
-
-            _G.Loop:Disconnect()
+            print("AD OFF")
+            _G.AdConection3:Disconnect()
         end
     end)
 end)
