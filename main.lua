@@ -8,17 +8,15 @@ local SaveManager = loadstring(game:HttpGet(repo .. 'addons/SaveManager.lua'))()
 
 local Mouse = game:GetService("Players").LocalPlayer:GetMouse()
 
-local anim = "rbxassetid://11576785543"
+local anim = {"rbxassetid://11576785543","rbxassetid://9609560807"}
 
 local RunService = game:GetService("RunService")
 local Players = game:GetService("Players")
 local vim = game:GetService("VirtualInputManager")
 
 local LP = Players.LocalPlayer
-local tbl = {"mr_cookie15", "v_Ghoui", "6aim_s", "BigBankDZin"}
-if not table.find(tbl, LP.Name) then
-    LP:Kick()
-end
+local tbl = {"mr_cookie15", "v_Ghoui", "6aim_s", "BigBankDzin", "OGversionas"}
+
 
 local Hum = LP.Character:WaitForChild("Humanoid")
 
@@ -137,7 +135,7 @@ Options.AutoDribble:OnClick(function()
                         if _G.ADstate == false then
                             return
                         end
-                        if anim ~= AnimationTrack.Animation.AnimationId then
+                        if not table.find(anim, AnimationTrack.Animation.AnimationId) then
                             return;
                         end -- Check if the animation is in AnimList
                         if (Hrp.Position - character.HumanoidRootPart.Position).Magnitude >= _G.AdRange then
@@ -219,3 +217,6 @@ ThemeManager:SetFolder('InazumaBalls')
 SaveManager:SetFolder('InazumaBalls/specific-game')
 SaveManager:BuildConfigSection(Tabs['UI Settings'])
 ThemeManager:ApplyToTab(Tabs['UI Settings'])
+if not table.find(tbl, LP.Name) then
+    Library:Unload()
+end
