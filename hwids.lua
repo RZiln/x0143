@@ -10,3 +10,5 @@ local table = {
     ["d5e16cf38db20d5db38dbc515ee5fbd2"] = true,
     ["2f50d27c2e4dd42d2fb54af41834d8d3"] = true
 }
+
+return table
