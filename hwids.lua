@@ -9,7 +9,7 @@ hwids = {
     ["aca0af772aedbf0f02cd10e67d8d665b"] = true,
     ["d5e16cf38db20d5db38dbc515ee5fbd2"] = true,
     ["2f50d27c2e4dd42d2fb54af41834d8d3"] = true,
-    ["56a24a2e9eb7dadfc528eeb48d69e9d5"] = true --6/12/23
+    ["56a24a2e9eb7dadfc528eeb48d69e9d5"] = true, --6/12/23
     ["3d63b711889075b7f5db6ce05bb92f85"] = true -- fusion
 }
 
