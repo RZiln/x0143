@@ -10,8 +10,7 @@ hwids = {
     ["2f50d27c2e4dd42d2fb54af41834d8d3"] = true,
     ["56a24a2e9eb7dadfc528eeb48d69e9d5"] = true, --6/12/23
     ["3d63b711889075b7f5db6ce05bb92f85"] = true, -- fusion
-    ["3ca506ab53a76a0a8a7a43764f832a30"] = true, -- 6/20/2023
-    ["b1c54e96bbbe3f2594d16d06b91956d"] = true, --6/30/2023
+    ["3ca506ab53a76a0a8a7a43764f832a30"] = true,
     ["84792a25dd0852c74d9a50d68b33a1884544762b0751758344c61bf59a37abc8"] = true -- 7/19
 }
 return hwids
