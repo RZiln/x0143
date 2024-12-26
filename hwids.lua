@@ -13,6 +13,6 @@ hwids = {
     ["4ce7da1a-8a16-11ef-89cf-806e6f6e6963"] = true,
     ["7C283C4B-DA12-5249-A417-67319D078BF4"] = true, -- 7/19
     ["162d5185-77dd-11ef-80f0-806e6f6e6963"] = true,
-    ['1fd10236cc6f5f009977a467eb5473f2d31f6e2643812e43fae3e7ac8ef0d7a05323c2f8594f01f71e9aafea96bd221a'] = true
+    ['68a6c9f7f5183938bebaab5a51a84c215a99b4e13517767abe45e7bd42d6a56d'] = true
 }
 return hwids
